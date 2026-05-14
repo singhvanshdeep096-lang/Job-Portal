@@ -4,6 +4,7 @@ import { Bookmark, MapPin, Briefcase, Trash2, ExternalLink } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import API_BASE_URL from '../config';
+import './SavedJobs.css';
 
 const SavedJobs = () => {
     const [savedJobs, setSavedJobs] = useState([]);

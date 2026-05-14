@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import { LogIn, Mail, Lock, AlertCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
+import './Auth.css';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -11,6 +13,7 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
     
     const { login } = useAuth();
+    const toast = useToast();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -20,6 +23,7 @@ const Login = () => {
 
         try {
             const data = await login(email, password);
+            toast.success('Welcome back!');
             // Role-based redirection
             if (data.user.role === 'employer' || data.user.role === 'admin') {
                 navigate('/employer-dashboard');
@@ -28,6 +32,7 @@ const Login = () => {
             }
         } catch (err) {
             setError(err.response?.data?.message || 'Failed to login');
+            toast.error(err.response?.data?.message || 'Invalid credentials');
         } finally {
             setLoading(false);
         }

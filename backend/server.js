@@ -22,6 +22,9 @@ const io = new Server(server, {
     }
 });
 
+// Make socket.io available in controllers
+app.set('socketio', io);
+
 // Route files
 const auth = require('./routes/auth');
 const jobs = require('./routes/jobs');
@@ -65,6 +68,11 @@ io.on('connection', (socket) => {
     socket.on('join', (userId) => {
         socket.join(userId);
         console.log(`User ${userId} joined their room`);
+    });
+
+    socket.on('join_role', (role) => {
+        socket.join(role);
+        console.log(`User joined ${role} room`);
     });
 
     socket.on('send_message', (data) => {

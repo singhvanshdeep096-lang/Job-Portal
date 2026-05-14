@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { FileText, Search } from 'lucide-react';
 import { motion } from 'framer-motion';
 import API_BASE_URL from '../config';
+import './Applications.css';
 
 const EmployerApplications = () => {
     const [applications, setApplications] = useState([]);
@@ -112,8 +113,13 @@ const EmployerApplications = () => {
                                                     <option value="Hired">Hired</option>
                                                 </select>
                                                 {app.resume && (
-                                                    <a href={`${API_BASE_URL.replace('/api/v1', '')}/${app.resume}`} target="_blank" rel="noopener noreferrer" className="btn-icon" title="View Resume">
-                                                        <FileText size={18} />
+                                                    <a 
+                                                        href={`${API_BASE_URL.replace('/api/v1', '')}/${app.resume}`} 
+                                                        target="_blank" 
+                                                        rel="noopener noreferrer" 
+                                                        className="btn-resume"
+                                                    >
+                                                        <FileText size={16} /> Resume
                                                     </a>
                                                 )}
                                             </div>

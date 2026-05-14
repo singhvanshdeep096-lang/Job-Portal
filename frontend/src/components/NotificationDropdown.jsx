@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Bell, Clock, CheckCircle, Briefcase, ExternalLink } from 'lucide-react';
+import { Bell, Clock, CheckCircle, Briefcase, ExternalLink, Trash2, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSocket } from '../context/SocketContext';
 import API_BASE_URL from '../config';
 import { Link } from 'react-router-dom';
+import '../pages/Notifications.css';
 
 const NotificationDropdown = () => {
     const [notifications, setNotifications] = useState([]);
@@ -50,6 +51,26 @@ const NotificationDropdown = () => {
         }
     };
 
+    const handleMarkAllAsRead = async () => {
+        try {
+            await axios.put(`${API_BASE_URL}/notifications/read-all`);
+            setNotifications(notifications.map(n => ({ ...n, isRead: true })));
+        } catch (err) {
+            console.error('Error marking all as read', err);
+        }
+    };
+
+    const handleClearAll = async () => {
+        if (window.confirm('Are you sure you want to clear all notifications?')) {
+            try {
+                await axios.delete(`${API_BASE_URL}/notifications`);
+                setNotifications([]);
+            } catch (err) {
+                console.error('Error clearing notifications', err);
+            }
+        }
+    };
+
     const unreadCount = notifications.filter(n => !n.isRead).length;
 
     return (
@@ -71,7 +92,18 @@ const NotificationDropdown = () => {
                         >
                             <div className="dropdown-header">
                                 <h3>Notifications</h3>
-                                {unreadCount > 0 && <button className="btn-link">Mark all as read</button>}
+                                <div className="header-actions">
+                                    {unreadCount > 0 && (
+                                        <button className="btn-action-sm" title="Mark all as read" onClick={handleMarkAllAsRead}>
+                                            <Check size={14} />
+                                        </button>
+                                    )}
+                                    {notifications.length > 0 && (
+                                        <button className="btn-action-sm danger" title="Clear all" onClick={handleClearAll}>
+                                            <Trash2 size={14} />
+                                        </button>
+                                    )}
+                                </div>
                             </div>
                             
                             <div className="notification-list">

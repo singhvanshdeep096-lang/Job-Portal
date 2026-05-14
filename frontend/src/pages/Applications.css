@@ -1,0 +1,218 @@
+.applications-page {
+  padding: 4rem 1rem;
+}
+
+.apps-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 3rem;
+}
+
+.app-item-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  transition: var(--transition);
+}
+
+.app-main-info {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.company-badge {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: var(--primary-light);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.5rem;
+}
+
+.app-meta {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--gray-500);
+}
+
+.app-meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.app-status-info {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* Status Pills */
+.status-pill {
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.status-pill.pending { background: #eff6ff; color: #3b82f6; }
+.status-pill.shortlisted { background: #fdf4ff; color: #d946ef; }
+.status-pill.interviewing { background: #fffbeb; color: #f59e0b; }
+.status-pill.rejected { background: #fef2f2; color: #ef4444; }
+.status-pill.hired { background: #f0fdf4; color: #22c55e; }
+
+/* Employer Applications Table */
+.filter-tabs {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  margin: 3rem 0 2rem;
+  background: var(--gray-50);
+  border-radius: 12px;
+  width: max-content;
+}
+
+.tab-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--gray-500);
+  background: transparent;
+  transition: var(--transition);
+}
+
+.tab-btn:hover {
+  color: var(--dark);
+}
+
+.tab-btn.active {
+  background: var(--white);
+  color: var(--primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.applications-table-container {
+  overflow-x: auto;
+  padding: 1rem;
+}
+
+.applications-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.applications-table th {
+  text-align: left;
+  padding: 1.25rem 1.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--gray-400);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.applications-table td {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--gray-100);
+  vertical-align: middle;
+}
+
+.candidate-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.candidate-info .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--primary-light);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.candidate-name {
+  font-weight: 700;
+  font-size: 0.9375rem;
+}
+
+.candidate-email {
+  font-size: 0.8125rem;
+  color: var(--gray-500);
+}
+
+.status-select {
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--gray-200);
+  font-size: 0.875rem;
+  font-weight: 600;
+  outline: none;
+  background: var(--white);
+  cursor: pointer;
+  transition: var(--transition);
+  color: var(--dark);
+}
+
+.status-select:hover {
+  border-color: var(--primary);
+  background: var(--gray-50);
+}
+
+.app-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn-resume {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  background: var(--gray-100);
+  color: var(--secondary);
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  transition: var(--transition);
+}
+
+.btn-resume:hover {
+  background: var(--primary);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+@media (max-width: 768px) {
+  .app-item-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+  .app-status-info {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

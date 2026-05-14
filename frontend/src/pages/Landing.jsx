@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Briefcase, Users, Zap, CheckCircle, ArrowRight, Shield, Globe, Award } from 'lucide-react';
+import './Landing.css';
 
 const Landing = () => {
     return (

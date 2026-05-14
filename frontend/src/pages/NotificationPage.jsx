@@ -4,6 +4,7 @@ import { Bell, Clock, Briefcase, Trash2, CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import API_BASE_URL from '../config';
 import { Link } from 'react-router-dom';
+import './Notifications.css';
 
 const NotificationPage = () => {
     const [notifications, setNotifications] = useState([]);

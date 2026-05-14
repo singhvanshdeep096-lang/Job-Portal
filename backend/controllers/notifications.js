@@ -54,3 +54,14 @@ exports.markAllAsRead = async (req, res) => {
         res.status(400).json({ success: false, message: err.message });
     }
 };
+// @desc    Delete all notifications
+// @route   DELETE /api/v1/notifications
+// @access  Private
+exports.deleteNotifications = async (req, res) => {
+    try {
+        await Notification.deleteMany({ recipient: req.user.id });
+        res.status(200).json({ success: true, message: 'All notifications cleared' });
+    } catch (err) {
+        res.status(400).json({ success: false, message: err.message });
+    }
+};

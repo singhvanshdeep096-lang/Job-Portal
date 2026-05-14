@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { Building, Globe, Mail, Phone, MapPin, Upload, Check, AlertCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import API_BASE_URL from '../config';
+import './Profile.css';
 const Profile = () => {
     const { user } = useAuth();
     
@@ -15,6 +16,7 @@ const Profile = () => {
     const [company, setCompany] = useState({
         name: '', description: '', website: '', contactEmail: '', contactPhone: '', address: '', logo: ''
     });
+    const logoInputRef = useRef(null);
 
     useEffect(() => {
         const fetchCompany = async () => {
@@ -52,6 +54,27 @@ const Profile = () => {
         }
     };
 
+    const handleLogoUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append('logo', file);
+
+        setSaving(true);
+        try {
+            const res = await axios.post(`${API_BASE_URL}/company/logo`, formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
+            setCompany(res.data.data);
+            setMessage({ type: 'success', text: 'Logo updated successfully!' });
+        } catch (err) {
+            setMessage({ type: 'error', text: err.response?.data?.message || 'Logo upload failed' });
+        } finally {
+            setSaving(false);
+        }
+    };
+
     if (loading) return <div className="container" style={{ padding: '4rem', textAlign: 'center' }}>Loading profile...</div>;
 
     return (
@@ -77,8 +100,20 @@ const Profile = () => {
                                 ) : (
                                     <div className="logo-placeholder"><Building size={32} /></div>
                                 )}
-                                <button type="button" className="btn-upload">
-                                    <Upload size={16} /> Update Logo
+                                <input 
+                                    type="file" 
+                                    hidden 
+                                    ref={logoInputRef} 
+                                    onChange={handleLogoUpload}
+                                    accept="image/*"
+                                />
+                                <button 
+                                    type="button" 
+                                    className="btn-upload"
+                                    onClick={() => logoInputRef.current.click()}
+                                    disabled={saving}
+                                >
+                                    <Upload size={16} /> {saving ? 'Uploading...' : 'Update Logo'}
                                 </button>
                             </div>
                             <div className="header-inputs">

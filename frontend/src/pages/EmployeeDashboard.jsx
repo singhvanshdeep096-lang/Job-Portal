@@ -7,6 +7,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import API_BASE_URL from '../config';
 import { Link } from 'react-router-dom';
 import LatestJobs from '../components/LatestJobs';
+import './Dashboard.css';
 
 const EmployeeDashboard = () => {
     const [stats, setStats] = useState(null);
@@ -27,14 +28,14 @@ const EmployeeDashboard = () => {
         fetchStats();
     }, []);
 
-    const data = [
-        { name: 'Mon', apps: 2 },
-        { name: 'Tue', apps: 5 },
-        { name: 'Wed', apps: 3 },
-        { name: 'Thu', apps: 8 },
-        { name: 'Fri', apps: 6 },
-        { name: 'Sat', apps: 2 },
-        { name: 'Sun', apps: 4 },
+    const activityData = stats?.activity || [
+        { name: 'Mon', apps: 0 },
+        { name: 'Tue', apps: 0 },
+        { name: 'Wed', apps: 0 },
+        { name: 'Thu', apps: 0 },
+        { name: 'Fri', apps: 0 },
+        { name: 'Sat', apps: 0 },
+        { name: 'Sun', apps: 0 },
     ];
 
     if (loading) return <div className="loading-spinner">Loading Dashboard...</div>;
@@ -55,31 +56,31 @@ const EmployeeDashboard = () => {
             </header>
 
             <div className="stats-grid">
-                <StatCard 
-                    icon={<Briefcase size={24} color="#6366f1" />} 
-                    title="Applied Jobs" 
-                    value={stats?.appliedCount || 0} 
+                <StatCard
+                    icon={<Briefcase size={24} color="#6366f1" />}
+                    title="Applied Jobs"
+                    value={stats?.appliedCount || 0}
                     trend="+12%"
                     color="indigo"
                 />
-                <StatCard 
-                    icon={<Bookmark size={24} color="#f59e0b" />} 
-                    title="Saved Jobs" 
-                    value={stats?.savedCount || 0} 
+                <StatCard
+                    icon={<Bookmark size={24} color="#f59e0b" />}
+                    title="Saved Jobs"
+                    value={stats?.savedCount || 0}
                     trend="+5%"
                     color="amber"
                 />
-                <StatCard 
-                    icon={<TrendingUp size={24} color="#10b981" />} 
-                    title="Profile Views" 
-                    value="128" 
+                <StatCard
+                    icon={<TrendingUp size={24} color="#10b981" />}
+                    title="Profile Views"
+                    value={stats?.viewsCount || 0}
                     trend="+24%"
                     color="emerald"
                 />
-                <StatCard 
-                    icon={<CheckCircle size={24} color="#8b5cf6" />} 
-                    title="Interviews" 
-                    value="3" 
+                <StatCard
+                    icon={<CheckCircle size={24} color="#8b5cf6" />}
+                    title="Interviews"
+                    value={stats?.interviewsCount || 0}
                     trend="New"
                     color="violet"
                 />
@@ -96,17 +97,17 @@ const EmployeeDashboard = () => {
                     </div>
                     <div className="chart-container" style={{ height: '300px' }}>
                         <ResponsiveContainer width="100%" height="100%">
-                            <AreaChart data={data}>
+                            <AreaChart data={activityData}>
                                 <defs>
                                     <linearGradient id="colorApps" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3}/>
-                                        <stop offset="95%" stopColor="#6366f1" stopOpacity={0}/>
+                                        <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3} />
+                                        <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
                                     </linearGradient>
                                 </defs>
                                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-                                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 12}} />
-                                <YAxis axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 12}} />
-                                <Tooltip 
+                                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} />
+                                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} />
+                                <Tooltip
                                     contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}
                                 />
                                 <Area type="monotone" dataKey="apps" stroke="#6366f1" strokeWidth={3} fillOpacity={1} fill="url(#colorApps)" />
@@ -152,7 +153,7 @@ const EmployeeDashboard = () => {
 };
 
 const StatCard = ({ icon, title, value, trend, color }) => (
-    <motion.div 
+    <motion.div
         className={`stat-card card glass border-${color}`}
         whileHover={{ y: -5 }}
     >

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Search, MapPin, Briefcase, DollarSign, Filter, Bookmark, ChevronRight } from 'lucide-react';
+import { Search, MapPin, Briefcase, IndianRupee, Filter, Bookmark, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import API_BASE_URL from '../config';
+import './Jobs.css';
 
 const JobSearch = () => {
     const [jobs, setJobs] = useState([]);
@@ -44,19 +45,40 @@ const JobSearch = () => {
         }
     };
 
+    const parseSalary = (salaryStr) => {
+        if (!salaryStr) return 0;
+        const clean = salaryStr.toLowerCase().replace(/[^\d.klm]/g, '');
+        if (clean.includes('k')) {
+            return parseFloat(clean.replace('k', '')) * 1000;
+        }
+        if (clean.includes('l')) {
+            return parseFloat(clean.replace('l', '')) * 100000;
+        }
+        if (clean.includes('m')) {
+            return parseFloat(clean.replace('m', '')) * 1000000;
+        }
+        return parseFloat(clean) || 0;
+    };
+
     const filteredJobs = jobs.filter(job => {
         const matchesSearch = job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                             job.company?.name?.toLowerCase().includes(searchTerm.toLowerCase());
         const matchesLocation = !filters.location || job.location.toLowerCase().includes(filters.location.toLowerCase());
         const matchesType = !filters.type || job.type === filters.type;
         
-        // Simple salary filtering logic
         let matchesSalary = true;
-        if (filters.salary === '$50k - $80k') {
-            // This is a placeholder, real logic would parse salary strings
+        if (filters.salary) {
+            const salaryValue = parseSalary(job.salary);
+            if (filters.salary === '₹3L - ₹6L') {
+                matchesSalary = salaryValue >= 300000 && salaryValue <= 600000;
+            } else if (filters.salary === '₹6L - ₹12L') {
+                matchesSalary = salaryValue > 600000 && salaryValue <= 1200000;
+            } else if (filters.salary === '₹12L+') {
+                matchesSalary = salaryValue > 1200000;
+            }
         }
 
-        return matchesSearch && matchesLocation && matchesType;
+        return matchesSearch && matchesLocation && matchesType && matchesSalary;
     });
 
     return (
@@ -111,18 +133,10 @@ const JobSearch = () => {
                                 onChange={(e) => setFilters({...filters, salary: e.target.value})}
                             >
                                 <option value="">Any Salary</option>
-                                <option>$50k - $80k</option>
-                                <option>$80k - $120k</option>
-                                <option>$120k+</option>
+                                <option>₹3L - ₹6L</option>
+                                <option>₹6L - ₹12L</option>
+                                <option>₹12L+</option>
                             </select>
-                        </div>
-                        <div className="filter-group">
-                            <label>Experience Level</label>
-                            <div className="checkbox-group">
-                                <label><input type="checkbox" /> Entry Level</label>
-                                <label><input type="checkbox" /> Mid Level</label>
-                                <label><input type="checkbox" /> Senior Level</label>
-                            </div>
                         </div>
                     </div>
                 </aside>
@@ -171,7 +185,7 @@ const JobSearch = () => {
                                                 <div className="job-meta">
                                                     <span><MapPin size={14} /> {job.location}</span>
                                                     <span><Briefcase size={14} /> {job.type}</span>
-                                                    <span><DollarSign size={14} /> {job.salary}</span>
+                                                    <span><IndianRupee size={14} /> {job.salary}</span>
                                                 </div>
                                                 <div className="job-tags">
                                                     {job.skillsRequired?.slice(0, 3).map(skill => (

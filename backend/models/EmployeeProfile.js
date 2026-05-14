@@ -48,6 +48,10 @@ const employeeProfileSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'Job'
     }],
+    views: {
+        type: Number,
+        default: 0
+    },
     createdAt: {
         type: Date,
         default: Date.now

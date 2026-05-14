@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { User, Mail, Phone, MapPin, Plus, Trash2, Save, FileText, Briefcase, GraduationCap, Code, Link as LinkIcon, Globe, Zap } from 'lucide-react';
 import { motion } from 'framer-motion';
 import API_BASE_URL from '../config';
+import './Profile.css';
 
 const EmployeeProfile = () => {
     const { user } = useAuth();
@@ -15,6 +16,7 @@ const EmployeeProfile = () => {
     const [showExpForm, setShowExpForm] = useState(false);
     const [newEdu, setNewEdu] = useState({ school: '', degree: '', startYear: '', endYear: '' });
     const fileInputRef = useRef(null);
+    const avatarInputRef = useRef(null);
     const [newExp, setNewExp] = useState({ 
         title: '', 
         company: '', 
@@ -146,6 +148,27 @@ const EmployeeProfile = () => {
         }
     };
 
+    const handleAvatarUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append('avatar', file);
+
+        setSaving(true);
+        try {
+            await axios.post(`${API_BASE_URL}/auth/avatar`, formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
+            alert('Profile picture updated!');
+            window.location.reload();
+        } catch (err) {
+            alert(err.response?.data?.message || 'Failed to upload avatar');
+        } finally {
+            setSaving(false);
+        }
+    };
+
     if (loading) return (
         <div className="container" style={{ padding: '8rem', textAlign: 'center' }}>
             <div className="spinner" style={{ margin: '0 auto 1rem' }}></div>
@@ -160,9 +183,26 @@ const EmployeeProfile = () => {
                     <div className="card glass profile-user-card">
                         <div className="avatar-wrapper">
                             <div className="avatar-lg">
-                                {user?.name?.charAt(0)}
+                                {user?.avatar ? (
+                                    <img src={user.avatar} alt={user.name} className="avatar-img" />
+                                ) : (
+                                    user?.name?.charAt(0)
+                                )}
                             </div>
-                            <button className="btn-edit-avatar"><Plus size={16} /></button>
+                            <input 
+                                type="file" 
+                                hidden 
+                                ref={avatarInputRef} 
+                                onChange={handleAvatarUpload}
+                                accept="image/*"
+                            />
+                            <button 
+                                className="btn-edit-avatar" 
+                                onClick={() => avatarInputRef.current.click()}
+                                disabled={saving}
+                            >
+                                <Plus size={16} />
+                            </button>
                         </div>
                         <h2>{user?.name}</h2>
                         <p className="user-role">{profile?.experience?.[0]?.title || 'Job Seeker'}</p>
@@ -494,34 +534,37 @@ const EmployeeProfile = () => {
                                     </button>
                                 </div>
                                 {profile?.resume?.fileName && (
-                                    <div className="file-item">
-                                        <div className="file-info">
-                                            <FileText size={20} />
-                                            <div>
-                                                <span>{profile.resume.fileName}</span>
-                                                <p style={{ fontSize: '0.75rem', color: 'var(--gray-400)', margin: 0 }}>
-                                                    Uploaded on {new Date(profile.resume.uploadedAt).toLocaleDateString()}
-                                                </p>
+                                    <div className="file-item-container" style={{ marginTop: '2rem' }}>
+                                        <p style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--gray-400)', marginBottom: '1rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Current Resume</p>
+                                        <div className="file-item">
+                                            <div className="file-info">
+                                                <FileText size={24} />
+                                                <div>
+                                                    <span>{profile.resume.fileName}</span>
+                                                    <p style={{ fontSize: '0.8125rem', color: 'var(--gray-400)', margin: 0 }}>
+                                                        Uploaded on {new Date(profile.resume.uploadedAt).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}
+                                                    </p>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="file-actions">
-                                            <a 
-                                                href={profile.resume.url} 
-                                                target="_blank" 
-                                                rel="noopener noreferrer" 
-                                                className="btn-icon-styled btn-icon-view"
-                                                title="View Resume"
-                                            >
-                                                <Zap size={20} />
-                                            </a>
-                                            <button 
-                                                type="button" 
-                                                className="btn-icon-styled btn-icon-delete"
-                                                onClick={deleteResume}
-                                                title="Delete Resume"
-                                            >
-                                                <Trash2 size={20} />
-                                            </button>
+                                            <div className="file-actions">
+                                                <a 
+                                                    href={profile.resume.url} 
+                                                    target="_blank" 
+                                                    rel="noopener noreferrer" 
+                                                    className="btn-icon-styled btn-icon-view"
+                                                    title="View Resume"
+                                                >
+                                                    <Zap size={20} />
+                                                </a>
+                                                <button 
+                                                    type="button" 
+                                                    className="btn-icon-styled btn-icon-delete"
+                                                    onClick={deleteResume}
+                                                    title="Delete Resume"
+                                                >
+                                                    <Trash2 size={20} />
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 )}

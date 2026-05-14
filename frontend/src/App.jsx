@@ -136,15 +136,19 @@ function AppContent() {
   );
 }
 
+import { ToastProvider } from './context/ToastContext';
+
 function App() {
   return (
-    <AuthProvider>
-      <SocketProvider>
-        <Router>
-          <AppContent />
-        </Router>
-      </SocketProvider>
-    </AuthProvider>
+    <ToastProvider>
+      <AuthProvider>
+        <SocketProvider>
+          <Router>
+            <AppContent />
+          </Router>
+        </SocketProvider>
+      </AuthProvider>
+    </ToastProvider>
   );
 }
 

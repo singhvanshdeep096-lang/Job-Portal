@@ -43,3 +43,38 @@ exports.upsertCompany = async (req, res) => {
         res.status(400).json({ success: false, message: err.message });
     }
 };
+
+// @desc    Upload company logo
+// @route   POST /api/v1/company/logo
+// @access  Private
+exports.uploadLogo = async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ success: false, message: 'Please upload a file' });
+        }
+
+        const logoUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+        
+        let company = await Company.findOneAndUpdate(
+            { employer: req.user.id },
+            { logo: logoUrl },
+            { new: true }
+        );
+
+        if (!company) {
+            // Create if doesn't exist
+            company = await Company.create({
+                employer: req.user.id,
+                name: 'Your Company',
+                logo: logoUrl
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            data: company
+        });
+    } catch (err) {
+        res.status(400).json({ success: false, message: err.message });
+    }
+};

@@ -30,6 +30,10 @@ const employerSchema = mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'Company'
     },
+    avatar: {
+        type: String,
+        default: ''
+    },
     createdAt: {
         type: Date,
         default: Date.now

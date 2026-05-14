@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { Plus, Search, Filter, Edit, Trash2, MapPin, DollarSign, Calendar, MoreVertical, Briefcase } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import API_BASE_URL from '../config';
+import './JobManagement.css';
 
 const JobManagement = () => {
     const [jobs, setJobs] = useState([]);

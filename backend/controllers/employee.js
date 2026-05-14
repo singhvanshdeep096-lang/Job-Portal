@@ -10,7 +10,7 @@ const Skill = require('../models/Skill');
 exports.getProfile = async (req, res) => {
     try {
         let profile = await EmployeeProfile.findOne({ user: req.user.id }).populate('skills');
-        
+
         if (!profile) {
             // Create empty profile if not exists
             profile = await EmployeeProfile.create({ user: req.user.id });
@@ -81,20 +81,69 @@ exports.getDashboardStats = async (req, res) => {
     try {
         const appliedCount = await Application.countDocuments({ applicant: req.user.id });
         const savedCount = await SavedJob.countDocuments({ user: req.user.id });
+        const interviewsCount = await Application.countDocuments({ 
+            applicant: req.user.id, 
+            status: 'Interviewing' 
+        });
+        
+        const profile = await EmployeeProfile.findOne({ user: req.user.id });
+        const viewsCount = profile ? profile.views : 0;
+
         const recentApplications = await Application.find({ applicant: req.user.id })
             .populate('job')
             .sort('-appliedAt')
             .limit(5);
+
+        // Calculate activity for the last 7 days
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+        const activity = await Application.aggregate([
+            {
+                $match: {
+                    applicant: req.user._id,
+                    appliedAt: { $gte: sevenDaysAgo }
+                }
+            },
+            {
+                $group: {
+                    _id: { $dateToString: { format: "%Y-%m-%d", date: "$appliedAt" } },
+                    count: { $sum: 1 }
+                }
+            },
+            { $sort: { _id: 1 } }
+        ]);
+
+        // Format activity for frontend (ensure all 7 days are present)
+        const activityData = [];
+        const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        
+        for (let i = 6; i >= 0; i--) {
+            const date = new Date();
+            date.setDate(date.getDate() - i);
+            const dateStr = date.toISOString().split('T')[0];
+            const dayName = dayNames[date.getDay()];
+            
+            const dayData = activity.find(a => a._id === dateStr);
+            activityData.push({
+                name: dayName,
+                apps: dayData ? dayData.count : 0
+            });
+        }
 
         res.status(200).json({
             success: true,
             data: {
                 appliedCount,
                 savedCount,
-                recentApplications
+                interviewsCount,
+                viewsCount,
+                recentApplications,
+                activity: activityData
             }
         });
     } catch (err) {
+        console.error('Dashboard Stats Error:', err);
         res.status(400).json({ success: false, message: err.message });
     }
 };

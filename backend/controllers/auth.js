@@ -74,6 +74,31 @@ exports.getMe = async (req, res) => {
     }
 };
 
+// @desc    Upload avatar
+// @route   POST /api/v1/auth/avatar
+// @access  Private
+exports.uploadAvatar = async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ success: false, message: 'Please upload a file' });
+        }
+
+        const avatarUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+        
+        const user = await Employer.findByIdAndUpdate(req.user.id, {
+            avatar: avatarUrl
+        }, { new: true });
+
+        res.status(200).json({
+            success: true,
+            data: user
+        });
+    } catch (err) {
+        console.error('Avatar Upload Error:', err);
+        res.status(400).json({ success: false, message: err.message });
+    }
+};
+
 const sendTokenResponse = (user, statusCode, res) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
         expiresIn: '30d'
@@ -88,7 +113,8 @@ const sendTokenResponse = (user, statusCode, res) => {
             id: user._id,
             name: user.name,
             email: user.email,
-            role: user.role
+            role: user.role,
+            avatar: user.avatar
         }
     });
 };

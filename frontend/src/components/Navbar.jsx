@@ -3,6 +3,7 @@ import { useLocation, NavLink, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { LayoutDashboard, Briefcase, Users, User, LogOut, LogIn, MessageSquare, Bookmark, Zap, Bell } from 'lucide-react';
 import NotificationDropdown from './NotificationDropdown';
+import './Navbar.css';
 
 const Navbar = () => {
     const { user, logout } = useAuth();

@@ -5,6 +5,7 @@ import { Briefcase, MapPin, Clock, ExternalLink, AlertCircle } from 'lucide-reac
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import API_BASE_URL from '../config';
+import './Applications.css';
 
 const EmployeeApplications = () => {
     const [applications, setApplications] = useState([]);

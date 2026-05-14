@@ -100,7 +100,7 @@ exports.createJob = async (req, res) => {
         // Real-time notification via Socket.io
         const io = req.app.get('socketio');
         if (io) {
-            io.emit('new_job_notification', {
+            io.to('employee').emit('new_job_notification', {
                 title: 'New Job Posted',
                 message: `${company.name} has posted a new position: ${job.title}`,
                 jobId: job._id,

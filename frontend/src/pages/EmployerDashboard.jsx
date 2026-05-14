@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import API_BASE_URL from '../config';
+import './Dashboard.css';
 
 const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {

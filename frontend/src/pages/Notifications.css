@@ -1,0 +1,195 @@
+.notification-wrapper {
+  position: relative;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: var(--danger);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--white);
+}
+
+.notification-dropdown {
+  position: absolute;
+  top: calc(100% + 1rem);
+  right: 0;
+  width: 400px;
+  max-height: 520px;
+  z-index: 1001;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px) saturate(180%);
+}
+
+.dropdown-header {
+  padding: 1.25rem;
+  border-bottom: 1px solid var(--gray-100);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dropdown-header h3 {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-action-sm {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gray-50);
+  color: var(--gray-500);
+  transition: var(--transition);
+  border: 1px solid var(--gray-100);
+  cursor: pointer;
+  padding: 0;
+}
+
+.btn-action-sm:hover {
+  background: var(--primary-light);
+  color: var(--primary);
+  border-color: var(--primary-light);
+}
+
+.btn-action-sm.danger:hover {
+  background: #fee2e2;
+  color: var(--danger);
+  border-color: #fecaca;
+}
+
+.notification-list {
+  max-height: 380px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  padding: 1rem 1.25rem;
+  display: flex;
+  gap: 1rem;
+  border-bottom: 1px solid var(--gray-50);
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.notification-item:hover {
+  background: var(--gray-50);
+}
+
+.notification-item.unread {
+  background: var(--primary-light);
+}
+
+.notif-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.notif-content h4 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.notif-content p {
+  font-size: 0.8rem;
+  color: var(--secondary);
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+}
+
+.notif-time {
+  font-size: 0.7rem;
+  color: var(--gray-400);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.notification-wrapper .notification-dropdown .dropdown-footer {
+  padding: 1.25rem !important;
+  border-top: 1px solid var(--gray-100) !important;
+  background: var(--white) !important;
+  display: block !important;
+}
+
+.notification-wrapper .notification-dropdown .dropdown-footer a {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-height: 48px !important;
+  padding: 0 1.5rem !important;
+  background: var(--primary-light) !important;
+  color: var(--primary) !important;
+  border-radius: var(--radius) !important;
+  font-weight: 700 !important;
+  font-size: 0.875rem !important;
+  transition: all 0.3s ease !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+}
+
+.notification-wrapper .notification-dropdown .dropdown-footer a:hover {
+  background: var(--primary) !important;
+  color: var(--white) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 5px 15px rgba(79, 70, 229, 0.2) !important;
+}
+
+.empty-notif {
+  padding: 4rem 2rem;
+  text-align: center;
+  color: var(--gray-400);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.empty-notif::before {
+  content: '🔔';
+  font-size: 2.5rem;
+  opacity: 0.3;
+  margin-bottom: 0.5rem;
+}
+
+.dropdown-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+}

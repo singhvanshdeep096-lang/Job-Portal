@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { useSocket } from '../context/SocketContext';
 import { Send, MessageSquare, User } from 'lucide-react';
 import { motion } from 'framer-motion';
+import './Messages.css';
 
 const EmployerMessages = () => {
     const [chats, setChats] = useState([
