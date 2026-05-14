@@ -1,5 +1,7 @@
 const Job = require('../models/Job');
 const Company = require('../models/Company');
+const Notification = require('../models/Notification');
+const Employer = require('../models/Employer');
 
 
 // @desc    Get all jobs
@@ -80,6 +82,31 @@ exports.createJob = async (req, res) => {
         req.body.company = company._id;
 
         const job = await Job.create(req.body);
+
+        // Notify all employees
+        const employees = await Employer.find({ role: 'employee' });
+        
+        const notifications = employees.map(emp => ({
+            recipient: emp._id,
+            sender: req.user.id,
+            type: 'job_posted',
+            title: 'New Job Posted',
+            message: `${company.name} has posted a new position: ${job.title}`,
+            job: job._id
+        }));
+
+        await Notification.insertMany(notifications);
+
+        // Real-time notification via Socket.io
+        const io = req.app.get('socketio');
+        if (io) {
+            io.emit('new_job_notification', {
+                title: 'New Job Posted',
+                message: `${company.name} has posted a new position: ${job.title}`,
+                jobId: job._id,
+                companyName: company.name
+            });
+        }
 
         res.status(201).json({ success: true, data: job });
     } catch (err) {

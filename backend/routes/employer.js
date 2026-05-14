@@ -6,7 +6,10 @@ const {
     updateJob,
     deleteJob,
     getCandidateApplications,
-    updateApplicationStatus
+    updateApplicationStatus,
+    getProfile,
+    updateProfile,
+    deleteProfile
 } = require('../controllers/employer');
 const { protect, authorize } = require('../middleware/auth');
 
@@ -22,5 +25,10 @@ router.put('/jobs/:id', updateJob);
 router.delete('/jobs/:id', deleteJob);
 router.get('/applications', getCandidateApplications);
 router.put('/applications/:id', updateApplicationStatus);
+
+// Profile
+router.get('/profile', getProfile);
+router.put('/profile', updateProfile);
+router.delete('/profile', deleteProfile);
 
 module.exports = router;

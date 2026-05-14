@@ -4,12 +4,6 @@ import { motion } from 'framer-motion';
 import { Briefcase, Users, Zap, CheckCircle, ArrowRight, Shield, Globe, Award } from 'lucide-react';
 
 const Landing = () => {
-    const fadeIn = {
-        initial: { opacity: 0, y: 20 },
-        animate: { opacity: 1, y: 0 },
-        transition: { duration: 0.6 }
-    };
-
     return (
         <div className="landing-container">
             {/* Hero Section */}
@@ -21,29 +15,29 @@ const Landing = () => {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.8 }}
                     >
-                        <span className="badge-premium">The Employer's Portal</span>
-                        <h1>Hire Your Next <span className="text-gradient">Top Talent</span></h1>
-                        <p>Access a pool of world-class professionals. Our AI-driven platform makes finding and managing candidates faster, smarter, and more efficient.</p>
+                        <span className="badge-premium">All-in-One Recruitment Solution</span>
+                        <h1>Find Your <span className="text-gradient">Dream Job</span> or <span className="text-gradient">Top Talent</span></h1>
+                        <p>RecruitPortal bridges the gap between ambitious professionals and industry leaders. Whether you're looking to grow your career or build your team, we've got you covered.</p>
                         <div className="hero-cta">
                             <Link to="/register" className="btn btn-primary btn-lg">
-                                Start Hiring <ArrowRight size={20} />
+                                Get Started <ArrowRight size={20} />
                             </Link>
                             <Link to="/login" className="btn btn-outline btn-lg">
-                                Dashboard Login
+                                Member Login
                             </Link>
                         </div>
                         <div className="hero-stats">
                             <div className="stat-item">
                                 <h3>50k+</h3>
-                                <p>Candidates</p>
+                                <p>Job Seekers</p>
                             </div>
                             <div className="stat-item">
                                 <h3>500+</h3>
-                                <p>Companies</p>
+                                <p>Top Employers</p>
                             </div>
                             <div className="stat-item">
                                 <h3>25k+</h3>
-                                <p>Success Hires</p>
+                                <p>Success Matches</p>
                             </div>
                         </div>
                     </motion.div>
@@ -54,24 +48,24 @@ const Landing = () => {
             {/* Features Section */}
             <section className="features-section container">
                 <div className="section-header">
-                    <h2>Why Choose <span className="text-gradient">RecruitPortal</span>?</h2>
-                    <p>We provide the ultimate toolkit for modern recruitment teams.</p>
+                    <h2>One Platform, <span className="text-gradient">Two Experiences</span></h2>
+                    <p>Tailored tools for both hiring managers and job seekers.</p>
                 </div>
                 <div className="features-grid">
                     <FeatureCard
-                        icon={<Zap color="#6366f1" />}
-                        title="AI Candidate Screening"
-                        desc="Our smart algorithms rank candidates based on their skills and experience automatically."
+                        icon={<Briefcase color="#6366f1" />}
+                        title="For Job Seekers"
+                        desc="Browse thousands of jobs, save your favorites, track your applications, and build a premium professional profile."
                     />
                     <FeatureCard
-                        icon={<Users color="#10b981" />}
-                        title="Talent Management"
-                        desc="Easily track applications, schedule interviews, and manage your hiring pipeline in one place."
+                        icon={<Zap color="#10b981" />}
+                        title="For Employers"
+                        desc="Post job openings, manage candidate pipelines, use AI screening, and communicate directly with top talent."
                     />
                     <FeatureCard
-                        icon={<Globe color="#f59e0b" />}
-                        title="Global Sourcing"
-                        desc="Post your jobs to a global audience and find the perfect fit regardless of location."
+                        icon={<Users color="#f59e0b" />}
+                        title="Smart Matching"
+                        desc="Our AI connects the right skills with the right opportunities, making the hiring process 5x faster."
                     />
                 </div>
             </section>
@@ -82,11 +76,11 @@ const Landing = () => {
                     <div className="trust-content card glass">
                         <div className="trust-text">
                             <Award size={48} color="var(--warning)" />
-                            <h3>Trusted by Industry Leaders</h3>
-                            <p>"RecruitPortal transformed our hiring process. We found our lead developer within 5 days of posting."</p>
+                            <h3>Trusted by Professionals Worldwide</h3>
+                            <p>"RecruitPortal is the most intuitive platform I've used. As a candidate, I found a role that perfectly matched my skills in just a week."</p>
                             <div className="trust-author">
-                                <strong>Sarah Chen</strong>
-                                <span>CTO at TechFlow</span>
+                                <strong>John Smith</strong>
+                                <span>Senior Software Engineer</span>
                             </div>
                         </div>
                     </div>
@@ -99,11 +93,11 @@ const Landing = () => {
                     className="cta-card"
                     whileHover={{ scale: 1.02 }}
                 >
-                    <h2>Ready to grow your team?</h2>
-                    <p>Join hundreds of industry leaders using RecruitPortal to build world-class teams.</p>
+                    <h2>Ready to take the next step?</h2>
+                    <p>Join the RecruitPortal community today and start your journey.</p>
                     <div className="cta-btns">
-                        <Link to="/register" className="btn btn-primary">Create Employer Account</Link>
-                        <Link to="/login" className="btn btn-outline" style={{ background: 'white' }}>Recruiter Login</Link>
+                        <Link to="/register" className="btn btn-primary">Create Free Account</Link>
+                        <Link to="/login" className="btn btn-outline" style={{ background: 'white' }}>Login to Dashboard</Link>
                     </div>
                 </motion.div>
             </section>

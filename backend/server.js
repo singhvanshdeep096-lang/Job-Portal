@@ -31,6 +31,9 @@ const dashboard = require('./routes/dashboard');
 const skills = require('./routes/skills');
 
 const employer = require('./routes/employer');
+const employee = require('./routes/employee');
+const notifications = require('./routes/notifications');
+const admin = require('./routes/admin');
 
 // Middleware
 app.use(cors());
@@ -46,6 +49,9 @@ app.use('/api/v1/dashboard', dashboard);
 app.use('/api/v1/skills', skills);
 
 app.use('/api/v1/employer', employer);
+app.use('/api/v1/employee', employee);
+app.use('/api/v1/notifications', notifications);
+app.use('/api/v1/admin', admin);
 
 // Basic route
 app.get('/', (req, res) => {

@@ -8,6 +8,7 @@ const Register = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [role, setRole] = useState('employee');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     
@@ -20,8 +21,12 @@ const Register = () => {
         setLoading(true);
 
         try {
-            await register({ name, email, password, role: 'employer' });
-            navigate('/dashboard');
+            const data = await register({ name, email, password, role });
+            if (data.user.role === 'employer' || data.user.role === 'admin') {
+                navigate('/employer-dashboard');
+            } else {
+                navigate('/employee-dashboard');
+            }
         } catch (err) {
             setError(err.response?.data?.message || 'Failed to register');
         } finally {
@@ -39,8 +44,25 @@ const Register = () => {
             >
                 <div className="auth-header">
                     <UserPlus size={40} className="auth-icon" />
-                    <h1>Recruiter Registration</h1>
-                    <p>Join RecruitPortal to find the best talent for your team</p>
+                    <h1>Create Account</h1>
+                    <p>Join RecruitPortal to find jobs or the best talent</p>
+                </div>
+
+                <div className="role-selector">
+                    <button 
+                        type="button"
+                        className={role === 'employee' ? 'active' : ''} 
+                        onClick={() => setRole('employee')}
+                    >
+                        I am a Job Seeker
+                    </button>
+                    <button 
+                        type="button"
+                        className={role === 'employer' ? 'active' : ''} 
+                        onClick={() => setRole('employer')}
+                    >
+                        I am an Employer
+                    </button>
                 </div>
 
                 {error && (
@@ -52,7 +74,7 @@ const Register = () => {
 
                 <form onSubmit={handleSubmit} className="auth-form">
                     <div className="input-group">
-                        <label>Full Name</label>
+                        <label className="required-label">Full Name</label>
                         <div className="input-wrapper">
                             <User size={18} className="input-icon" />
                             <input 
@@ -66,7 +88,7 @@ const Register = () => {
                     </div>
 
                     <div className="input-group">
-                        <label>Email Address</label>
+                        <label className="required-label">Email Address</label>
                         <div className="input-wrapper">
                             <Mail size={18} className="input-icon" />
                             <input 
@@ -80,7 +102,7 @@ const Register = () => {
                     </div>
 
                     <div className="input-group">
-                        <label>Password</label>
+                        <label className="required-label">Password</label>
                         <div className="input-wrapper">
                             <Lock size={18} className="input-icon" />
                             <input 
@@ -95,7 +117,7 @@ const Register = () => {
                     </div>
 
                     <button type="submit" className="btn btn-primary btn-block" disabled={loading}>
-                        {loading ? 'Creating Account...' : 'Register as Employer'}
+                        {loading ? 'Creating Account...' : `Register as ${role.charAt(0).toUpperCase() + role.slice(1)}`}
                     </button>
                 </form>
 

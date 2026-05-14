@@ -21,10 +21,10 @@ const Login = () => {
         try {
             const data = await login(email, password);
             // Role-based redirection
-            if (data.role === 'employer' || data.role === 'admin') {
-                navigate('/dashboard');
+            if (data.user.role === 'employer' || data.user.role === 'admin') {
+                navigate('/employer-dashboard');
             } else {
-                navigate('/dashboard');
+                navigate('/employee-dashboard');
             }
         } catch (err) {
             setError(err.response?.data?.message || 'Failed to login');
@@ -56,7 +56,7 @@ const Login = () => {
 
                 <form onSubmit={handleSubmit} className="auth-form">
                     <div className="input-group">
-                        <label>Email Address</label>
+                        <label className="required-label">Email Address</label>
                         <div className="input-wrapper">
                             <Mail size={18} className="input-icon" />
                             <input 
@@ -70,7 +70,7 @@ const Login = () => {
                     </div>
 
                     <div className="input-group">
-                        <label>Password</label>
+                        <label className="required-label">Password</label>
                         <div className="input-wrapper">
                             <Lock size={18} className="input-icon" />
                             <input 

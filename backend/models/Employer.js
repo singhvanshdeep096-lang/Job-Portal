@@ -23,8 +23,8 @@ const employerSchema = mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['employer', 'admin'],
-        default: 'employer'
+        enum: ['employer', 'admin', 'employee'],
+        default: 'employee'
     },
     company: {
         type: mongoose.Schema.ObjectId,

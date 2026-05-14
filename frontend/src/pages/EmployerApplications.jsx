@@ -29,7 +29,7 @@ const EmployerApplications = () => {
     const handleStatusChange = async (id, newStatus) => {
         try {
             await axios.put(`${API_BASE_URL}/applications/${id}`, { status: newStatus });
-            setApplications(applications.map(app => 
+            setApplications(applications.map(app =>
                 app._id === id ? { ...app, status: newStatus } : app
             ));
         } catch (err) {
@@ -37,8 +37,8 @@ const EmployerApplications = () => {
         }
     };
 
-    const filteredApplications = filter === 'All' 
-        ? applications 
+    const filteredApplications = filter === 'All'
+        ? applications
         : applications.filter(app => app.status === filter);
 
     return (
@@ -52,7 +52,7 @@ const EmployerApplications = () => {
 
             <div className="filter-tabs card">
                 {['All', 'Pending', 'Shortlisted', 'Interviewing', 'Rejected', 'Hired'].map(tab => (
-                    <button 
+                    <button
                         key={tab}
                         className={`tab-btn ${filter === tab ? 'active' : ''}`}
                         onClick={() => setFilter(tab)}
@@ -100,7 +100,7 @@ const EmployerApplications = () => {
                                         <td>{new Date(app.appliedAt).toLocaleDateString()}</td>
                                         <td>
                                             <div className="app-actions">
-                                                <select 
+                                                <select
                                                     value={app.status}
                                                     onChange={(e) => handleStatusChange(app._id, e.target.value)}
                                                     className="status-select"

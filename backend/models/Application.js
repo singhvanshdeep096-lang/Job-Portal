@@ -6,6 +6,11 @@ const applicationSchema = mongoose.Schema({
         ref: 'Job',
         required: true
     },
+    applicant: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Employer',
+        required: true
+    },
     candidateName: {
         type: String,
         required: [true, 'Please add candidate name']
